@@ -1,7 +1,7 @@
 #!/bin/bash
-# Reddit Autoposter — Claude Code entry point
+# Content Engine — Claude Code entry point (Reddit + LinkedIn + X)
 # Runs via Claude Max Pro subscription (zero API costs)
 export PATH="/opt/homebrew/bin:$PATH"
 cd "$(dirname "$0")"
 
-claude --print -p "You are the Reddit Autoposter for r/AIProductionHouse. Read content-queue.jsonl, find the next topic where posted=false. Read the matching template from templates/ based on the topic's pillar. Research the topic if needed, then write a high-quality Reddit article (1500-4000 chars, Reddit markdown). The article must read like a knowledgeable production professional — no AI slop, no 'As an AI', no 'In conclusion'. Then run: python3 src/post.py --title 'YOUR TITLE' --body 'YOUR BODY' --subreddit AIProductionHouse to post it. Finally, update content-queue.jsonl to mark the topic as posted=true and append to post-history.jsonl with {timestamp, topic_id, title, status, url}. See CLAUDE.md for full instructions."
+claude --print -p "You are the AI Production Content Engine. Read CLAUDE.md for your full instructions. Follow every step: research trending topics, verify tool versions, generate 3 article variants, score them (8+ to post), AI-proof the winner, create platform-specific versions for Reddit/LinkedIn/X, then post using src/post_reddit.py, src/post_linkedin.py, and src/post_x.py. Log everything to data/experiment-log.jsonl and data/post-history.jsonl. Update content-queue.jsonl when done."

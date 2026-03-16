@@ -1,0 +1,18 @@
+{
+  "subreddit": "AIProductionHouse",
+  "posting": {
+    "enabled": false,
+    "max_per_day": 2,
+    "min_hours_between_posts": 6
+  },
+  "generation": {
+    "model": "claude-sonnet-4-20250514",
+    "max_tokens": 4096,
+    "temperature": 0.8
+  },
+  "content": {
+    "min_length": 1500,
+    "max_length": 4000,
+    "pillars": ["workflow", "review", "case_study", "tutorial", "business", "news"]
+  }
+}

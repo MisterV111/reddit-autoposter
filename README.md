@@ -1,11 +1,25 @@
 # Reddit Autoposter — AI Production Content Engine
 
-Automated Reddit content pipeline that generates AI production articles via Claude API and posts them to r/AIProductionHouse using PRAW.
+Automated Reddit content pipeline for r/AIProductionHouse. Claude Code writes the articles and posts them via PRAW — **zero API costs** through your Claude Max Pro subscription.
+
+## Architecture
+
+```
+LaunchAgent/cron → run.sh → Claude Code (--print mode)
+                                 ↓
+                    Reads topic from content-queue.jsonl
+                    Reads pillar template from templates/
+                    Writes the article
+                    Calls python3 src/post.py → Reddit
+                    Updates queue + history
+```
+
+Claude Code **is** the writer. No API key needed — everything runs through your Max Pro subscription.
 
 ## What It Does
 
 1. Picks the next unposted topic from a seeded content queue (50+ topics across 6 pillars)
-2. Generates a Reddit-formatted article using Claude with pillar-specific prompt templates
+2. Claude Code reads the pillar-specific template and writes a Reddit-formatted article
 3. Posts to the target subreddit via PRAW
 4. Logs the result and marks the topic as posted
 5. Designed to run on a schedule (cron/LaunchAgent)
@@ -31,15 +45,17 @@ pip install -r requirements.txt
 
 ### 2. Configure environment
 
-Copy `.env.example` to `.env` and fill in your credentials:
+Copy `.env.example` to `.env` and fill in your Reddit credentials:
 
 ```bash
 cp .env.example .env
 ```
 
 You need:
-- **Anthropic API key** — from [console.anthropic.com](https://console.anthropic.com)
 - **Reddit API credentials** — create an app at [reddit.com/prefs/apps](https://www.reddit.com/prefs/apps) (select "script" type)
+- **Claude Code** installed and authenticated (`claude` CLI available in PATH)
+
+No Anthropic API key needed.
 
 ### 3. Edit config.json
 
@@ -55,32 +71,30 @@ This generates 50+ topics to `content-queue.jsonl`.
 
 ## Usage
 
-### Dry run (generate but don't post)
+### Run once (Claude Code writes + posts)
 
 ```bash
+./run.sh
+```
+
+This starts Claude Code in `--print` mode. It reads the next topic, writes the article, and posts it.
+
+### Post manually (CLI)
+
+```bash
+python3 src/post.py --title "Your Title" --body "Your article body" --subreddit AIProductionHouse
+```
+
+### Legacy: API-based generation (optional)
+
+If you want to use the Anthropic API directly instead of Claude Code:
+
+```bash
+pip install anthropic
 python src/scheduler.py --dry-run
 ```
 
-### Dry run with saved output
-
-```bash
-python src/scheduler.py --dry-run --save-to samples/test.md
-```
-
-### Live posting
-
-1. Set `posting.enabled` to `true` in `config.json`
-2. Run:
-
-```bash
-python src/scheduler.py
-```
-
-### Environment variable dry run
-
-```bash
-DRY_RUN=true python src/scheduler.py
-```
+This requires an `ANTHROPIC_API_KEY` in your `.env`.
 
 ## Deploy as LaunchAgent (macOS)
 
@@ -95,13 +109,11 @@ Create `~/Library/LaunchAgents/com.autoposter.reddit.plist`:
     <string>com.autoposter.reddit</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/homebrew/bin/python3</string>
-        <string>/path/to/reddit-autoposter/src/scheduler.py</string>
+        <string>/bin/bash</string>
+        <string>/Users/juancarlosvalencia/Documents/AI - Programming Projects/reddit-autoposter/run.sh</string>
     </array>
     <key>StartInterval</key>
     <integer>21600</integer>
-    <key>WorkingDirectory</key>
-    <string>/path/to/reddit-autoposter</string>
     <key>StandardOutPath</key>
     <string>/tmp/reddit-autoposter.log</string>
     <key>StandardErrorPath</key>
@@ -120,20 +132,22 @@ launchctl load ~/Library/LaunchAgents/com.autoposter.reddit.plist
 
 ```bash
 # Post every 6 hours
-0 */6 * * * cd /path/to/reddit-autoposter && /opt/homebrew/bin/python3 src/scheduler.py >> /tmp/reddit-autoposter.log 2>&1
+0 */6 * * * /bin/bash "/Users/juancarlosvalencia/Documents/AI - Programming Projects/reddit-autoposter/run.sh" >> /tmp/reddit-autoposter.log 2>&1
 ```
 
 ## Project Structure
 
 ```
 reddit-autoposter/
+├── run.sh                   # Entry point — launches Claude Code
+├── CLAUDE.md                # Instructions for Claude Code
 ├── config.json              # Subreddit, schedule, generation settings
 ├── content-queue.jsonl      # Topic queue (seeded by seed_topics.py)
 ├── post-history.jsonl       # Posting log
 ├── src/
-│   ├── generate.py          # Claude API article generation
-│   ├── post.py              # PRAW Reddit posting
-│   ├── scheduler.py         # Main entry point
+│   ├── post.py              # CLI + library — posts to Reddit via PRAW
+│   ├── generate.py          # Optional: API-based generation (requires anthropic)
+│   ├── scheduler.py         # Optional: API-based orchestrator
 │   └── seed_topics.py       # Topic queue generator
 ├── templates/               # Pillar-specific prompt templates
 │   ├── workflow.md
@@ -142,7 +156,7 @@ reddit-autoposter/
 │   ├── tutorial.md
 │   ├── business.md
 │   └── news.md
-├── samples/                 # Generated sample articles
+├── samples/                 # Sample articles for quality reference
 └── tests/
     └── test_generate.py
 ```
@@ -150,3 +164,7 @@ reddit-autoposter/
 ## Regenerating Topics
 
 To add fresh topics, edit `src/seed_topics.py` and run it again. This overwrites the queue — any unposted topics will be replaced. Back up `content-queue.jsonl` first if needed.
+
+## Cost
+
+**$0 extra.** Claude Code runs through your Max Pro subscription. Reddit API is free for script-type apps.

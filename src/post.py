@@ -1,6 +1,8 @@
-"""Reddit posting via PRAW."""
+"""Reddit posting via PRAW. Works as both a library and CLI tool."""
 
+import argparse
 import os
+import sys
 import time
 
 import praw
@@ -79,3 +81,24 @@ def submit_post(
             raise
 
     raise RuntimeError(f"Failed to submit post after {max_retries} attempts")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Post an article to Reddit")
+    parser.add_argument("--title", required=True, help="Post title")
+    parser.add_argument("--body", required=True, help="Post body (Reddit markdown)")
+    parser.add_argument("--subreddit", required=True, help="Target subreddit (without r/)")
+    parser.add_argument("--flair", default=None, help="Optional flair text")
+    args = parser.parse_args()
+
+    try:
+        url = submit_post(args.title, args.body, args.subreddit, args.flair)
+        print(url)
+        sys.exit(0)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

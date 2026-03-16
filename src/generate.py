@@ -1,10 +1,16 @@
-"""Article generation using Claude API."""
+"""Article generation using Claude API.
+
+This module is OPTIONAL — the primary workflow uses Claude Code (run.sh)
+which has zero API costs via the Max Pro subscription.
+
+Keep this for batch pre-generation if you want to use the API directly.
+Requires: pip install anthropic
+"""
 
 import os
 import random
 from pathlib import Path
 
-import anthropic
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,6 +38,8 @@ def load_template(pillar: str) -> str:
 def generate_article(topic: dict, config: dict) -> dict:
     """Generate a Reddit article from a topic dict and config.
 
+    Requires the 'anthropic' package to be installed.
+
     Args:
         topic: Dict with keys: title, pillar, keywords, brief
         config: Generation config with model, max_tokens, temperature
@@ -39,6 +47,15 @@ def generate_article(topic: dict, config: dict) -> dict:
     Returns:
         Dict with 'title' and 'body' keys
     """
+    try:
+        import anthropic
+    except ImportError:
+        raise ImportError(
+            "The 'anthropic' package is required for API-based generation. "
+            "Install it with: pip install anthropic\n"
+            "Or use run.sh for zero-cost generation via Claude Code."
+        )
+
     client = anthropic.Anthropic()
 
     template = load_template(topic["pillar"])

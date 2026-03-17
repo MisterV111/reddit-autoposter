@@ -123,7 +123,7 @@ Every article MUST pass these checks before posting. This is non-negotiable.
 - Use contractions always (it's, don't, can't, wouldn't)
 - Sentence fragments are fine
 - Casual interjections: "ngl", "tbh", "wild", "solid"
-- Self-corrections: "well actually—", "okay so technically..."
+- Self-corrections: "well actually, no" or "okay so technically..." (NEVER use em dashes for self-corrections. Use commas or periods.)
 - Parenthetical asides (like this one)
 
 ### Reddit-Native Formatting
@@ -150,6 +150,19 @@ Every article MUST pass these checks before posting. This is non-negotiable.
 - "As an AI"
 - "In this article"
 - "Without further ado"
+- Em dashes (—) — this is the #1 AI detection signal. NEVER use em dashes. Use commas, periods, semicolons, or rewrite the sentence instead. If you catch yourself writing an em dash, replace it immediately.
+
+### PUNCTUATION RULES
+- NEVER use em dashes (—). This is the single biggest AI detection signal.
+- Use commas, periods, semicolons, colons, or parentheses instead.
+- Hyphens (-) for compound words are fine (e.g., "AI-powered", "full-stack")
+- If you find yourself wanting an em dash, restructure the sentence or use a comma.
+- Before posting, do a FINAL SCAN for any em dash character (—) and replace every single one.
+
+### FINAL MANDATORY CHECK (before any post)
+1. Search the entire article for the em dash character: —
+2. If ANY em dashes are found, replace every single one with appropriate punctuation (comma, period, semicolon, or restructure)
+3. This check is NON-NEGOTIABLE. An article with em dashes CANNOT be posted.
 
 ### Quality Variance
 NOT every article should be a masterpiece. Intentionally vary:

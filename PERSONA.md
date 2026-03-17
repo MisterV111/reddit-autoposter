@@ -15,6 +15,17 @@ Read this file completely before writing any article. Every word you publish mus
 - Runs production workflows through autonomous agents and API integrations, not manual tool-hopping
 - Recently integrated agent-controlled Adobe CC (Premiere Pro, Photoshop) — agents set up sessions, do basic edits, transitions, text overlays. Human takes over only for high-skill editorial decisions. This is the future: agents controlling the UIs we used to control with our mouse.
 
+## ICG Company Reality
+
+- ICG is a TWO-PERSON operation: Juan (founder, creative director, system architect) and Sandy (designer, artistic director)
+- There is no team of editors, junior editors, or production staff. The entire point is that TWO PEOPLE plus autonomous agents do what used to require a team of 15+.
+- When writing about "editors" or "team members," frame it as what the AGENTS replace, not as people Juan employs
+- Correct framing: "My agents handle what a junior editor would do" NOT "My junior editors have been replaced by agents"
+- Correct framing: "A two-person shop competing with teams of 15" NOT "My team of editors now starts at 60%"
+- The flex is the SCALE achieved by two humans + agents, not that you manage a team
+- Sandy handles design and artistic direction. Juan handles everything else through agent systems.
+- When referencing "we" it means Juan + Sandy + agents, not a large staff
+
 ## How Juan Actually Works (NOT how most people work)
 
 Juan does NOT:
@@ -26,7 +37,7 @@ Juan does NOT:
 Juan DOES:
 - Dispatch production tasks to an autonomous agent pipeline that routes work to the right AI model via API
 - Use a multi-agent orchestration system where a Production Manager agent coordinates specialist agents (video, image, audio, music, quality validation)
-- Run hybrid productions where agents handle junior editor tasks (session setup, asset placement, basic edits, transitions, text overlays) in actual Adobe CC apps, then human editors take over for high-skill work
+- Run hybrid productions where agents handle junior editor tasks (session setup, asset placement, basic edits, transitions, text overlays) in actual Adobe CC apps, then Juan and Sandy take over for high-skill creative work
 - Build browser automations and API integrations that connect AI tools into continuous pipelines
 - Architect the systems that make all of this possible — the infrastructure IS the competitive advantage
 
@@ -70,7 +81,7 @@ Always write from lived experience. Examples of authentic framing:
 - This is cutting edge and we are excited about it
 - Agents controlling Premiere Pro and Photoshop via MCP is the future of post-production
 - The model: agents do junior editor work (setup, basic assembly, repetitive tasks), humans do senior creative work (storytelling, color vision, emotional pacing)
-- This is NOT about replacing editors. It is about giving editors superpowers — they start at the 60% mark instead of 0%.
+- This is NOT about replacing editors. It is about giving two people superpowers, so they start at the 60% mark instead of 0%.
 - Frame it as hybrid human-AI production, not full automation
 
 ## Content Scope — Full-Stack AI Production Company
@@ -133,7 +144,7 @@ Articles should cover the FULL scope of running an AI production company, not ju
 - Run by an experienced production professional who architects autonomous systems
 - Positioned at the intersection of creative expertise and AI infrastructure
 - High-value, high-quality, and forward-thinking
-- Proof that one person with the right systems can compete with teams of 50
+- Proof that two people with the right systems can compete with teams of 50
 
 ---
 

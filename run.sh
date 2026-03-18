@@ -1,7 +1,19 @@
 #!/bin/bash
-# Content Engine — Claude Code entry point (Reddit + LinkedIn + X)
+# Reddit Autoposter — Claude Code entry point
 # Runs via Claude Max Pro subscription (zero API costs)
 export PATH="/opt/homebrew/bin:$PATH"
 cd "$(dirname "$0")"
 
-claude --print -p "You are the AI Production Content Engine. Read CLAUDE.md and PERSONA.md for your full instructions and editorial voice. Follow every step: research trending topics, verify tool versions, generate 3 article variants, score them (8+ to post), AI-proof the winner, create platform-specific versions for Reddit/LinkedIn/X, then post using src/post_reddit.py, src/post_linkedin.py, and src/post_x.py. Log everything to data/experiment-log.jsonl and data/post-history.jsonl. Update content-queue.jsonl when done."
+# Resolve writing craft skill (local takes priority over global)
+if [ -f "$(pwd)/skills/content-writing-craft/SKILL.md" ] && [ -s "$(pwd)/skills/content-writing-craft/SKILL.md" ]; then
+  WRITING_SKILL_PATH="$(pwd)/skills/content-writing-craft/SKILL.md"
+  WRITING_SKILL_INSTRUCTION="Also read $WRITING_SKILL_PATH and apply its craft principles to the article generation."
+elif [ -f "$HOME/.claude/skills/content-writing-craft/SKILL.md" ] && [ -s "$HOME/.claude/skills/content-writing-craft/SKILL.md" ]; then
+  WRITING_SKILL_PATH="$HOME/.claude/skills/content-writing-craft/SKILL.md"
+  WRITING_SKILL_INSTRUCTION="Also read $WRITING_SKILL_PATH and apply its craft principles to the article generation."
+else
+  WRITING_SKILL_INSTRUCTION=""
+fi
+
+# Run the content engine
+claude --print -p "Read CLAUDE.md and PERSONA.md completely first. $WRITING_SKILL_INSTRUCTION Then execute the full autoresearch pipeline as described in CLAUDE.md: research trending topics, generate 3 article variants, score and select the winner, AI-proof it, create platform adaptations for Reddit, LinkedIn, and X, then post using the scripts in src/. See CLAUDE.md for full instructions."

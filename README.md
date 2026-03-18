@@ -107,6 +107,33 @@ python src/scheduler.py --dry-run
 
 Requires `ANTHROPIC_API_KEY` in `.env`.
 
+## Review Workflow
+
+The engine generates 3 variants but does NOT auto-post. Instead, it saves all variants and notifies Juan via Telegram for human review.
+
+### How it works
+
+1. Engine generates 3 variants, adapts each for Reddit/LinkedIn/X (9 files total)
+2. Saves everything to `data/review/[run-id]/` with a `metadata.json`
+3. Sends Telegram notification with variant summaries and system recommendation
+4. Juan replies with A, B, C, or SKIP
+
+### Approve and post a variant
+
+```bash
+python3 src/post_choice.py --choice B --run-id 2026-03-18-143022
+```
+
+This posts the chosen variant to all 3 platforms and logs the preference to `data/preference-log.jsonl` for tracking system accuracy over time.
+
+### Notification CLI (standalone)
+
+```bash
+python3 src/notify.py --topic "Topic Name" --variant-a "Practitioner walkthrough 8.5" --variant-b "Comparison piece 7.9" --variant-c "Hot take 8.2" --winner A --slop-score 8.5
+```
+
+Falls back to stdout if the Telegram gateway is unavailable.
+
 ## Deploy (macOS LaunchAgent)
 
 Create `~/Library/LaunchAgents/com.contentengine.plist`:
@@ -150,13 +177,17 @@ reddit-autoposter/
 │   ├── post_linkedin.py     # LinkedIn posting via OAuth 2.0
 │   ├── post_x.py            # X posting via Tweepy
 │   ├── post_all.py          # Multi-platform orchestrator
+│   ├── notify.py            # Telegram review notification
+│   ├── post_choice.py       # Post Juan's chosen variant
 │   ├── generate.py          # Optional: API-based generation
 │   ├── scheduler.py         # Optional: API-based orchestrator
 │   └── seed_topics.py       # Topic queue generator
 ├── data/
-│   ├── experiment-log.jsonl # Full run logs (research, scores, variants)
-│   ├── post-history.jsonl   # Individual post logs
-│   └── evolution-log.jsonl  # Weekly self-improvement changes
+│   ├── experiment-log.jsonl  # Full run logs (research, scores, variants)
+│   ├── post-history.jsonl    # Individual post logs
+│   ├── evolution-log.jsonl   # Weekly self-improvement changes
+│   ├── preference-log.jsonl  # Juan's choices vs system picks
+│   └── review/               # Saved variants pending human review
 ├── templates/               # Pillar-specific prompt templates
 ├── samples/                 # Sample articles for quality reference
 └── tests/

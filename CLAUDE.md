@@ -203,6 +203,34 @@ After selecting the winning variant, create **3 platform-specific versions**:
 
 ---
 
+## Step 5.5: Human Review (MANDATORY)
+
+After platform adaptation, save all variants for human review. Do NOT auto-post.
+
+### Save Variants
+1. Generate a run ID: `YYYY-MM-DD-HHMMSS` (e.g., `2026-03-18-143022`)
+2. Create directory: `data/review/[run-id]/`
+3. Save 9 files (3 variants x 3 platforms):
+   - `A_reddit.md`, `A_linkedin.md`, `A_x.md`
+   - `B_reddit.md`, `B_linkedin.md`, `B_x.md`
+   - `C_reddit.md`, `C_linkedin.md`, `C_x.md`
+4. Save `metadata.json` with: run_id, topic, title, subreddit, flair, scores, winner, timestamp
+
+### Notify Juan
+```bash
+python3 src/notify.py --topic "TOPIC" --variant-a "ANGLE SCORE" --variant-b "ANGLE SCORE" --variant-c "ANGLE SCORE" --winner A --slop-score 8.5 --run-id RUN_ID
+```
+
+### Wait for Choice
+Do NOT proceed to posting. Juan will review and run:
+```bash
+python3 src/post_choice.py --choice C --run-id RUN_ID
+```
+
+This posts the chosen variant to all platforms and logs the preference to `data/preference-log.jsonl`.
+
+---
+
 ## Step 6: Post to All Platforms
 
 ### Posting Commands
@@ -290,3 +318,7 @@ Once per week, read `data/post-history.jsonl` and analyze:
 | `src/post_linkedin.py` | LinkedIn posting CLI |
 | `src/post_x.py` | X/Twitter posting CLI |
 | `src/post_all.py` | Multi-platform orchestrator |
+| `src/notify.py` | Telegram notification for human review |
+| `src/post_choice.py` | Post Juan's chosen variant |
+| `data/review/` | Saved variants pending review |
+| `data/preference-log.jsonl` | Juan's choices vs system picks |

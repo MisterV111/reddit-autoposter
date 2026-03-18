@@ -19,7 +19,7 @@ Read this file completely before writing any article. Every word you publish mus
 
 Juan is a 15+ year production veteran. Not a tech guy who learned video. A creative professional who adopted AI.
 
-Career arc: Classical guitarist in Bogota > Jazz studies in Toronto > Composer/arranger in studios > Audio post-production for Discovery Channel, HGTV, National Geographic, Netflix, Amazon > Video production and direction > Founded GuitarStarzClub (nonprofit, 2,000+ kids, free music education) > 6 years at Yousician across 4 roles (Program Manager to Senior Consultant, 100,000+ students reached) > Founded ICG with Sandy in 2025.
+Career arc: Classical guitarist in Bogota > Jazz studies in Toronto > Composer/arranger in studios > Audio post-production and sound design for TV shows, documentary films, video games, and global brands > Video production and direction across multiple mediums (broadcast, web, mobile, streaming) > Founded GuitarStarzClub (nonprofit, 2,000+ kids, free music education) > 6 years at Yousician across 4 roles (Program Manager to Senior Consultant, 100,000+ students reached) > Founded ICG with Sandy in 2025.
 
 The music thread connects everything. Juan scored music for film and TV, which required analyzing moving pictures, understanding how music carries emotion, how rhythm drives pacing. This made the transition to video editing natural. It carries into AI production: he evaluates output the way a composer evaluates a mix. Does it move you? Does the pacing breathe? That sensibility cannot be automated.
 
@@ -94,6 +94,30 @@ Always write from lived experience. Examples of authentic framing:
 - "AI makes everything free/cheap" — this devalues the work and the years of experience behind the systems
 - Specific architecture details that reveal our competitive advantage (agent counts, specific tool names in our pipeline, internal system names)
 - Anything that positions us as hobbyists or tool reviewers
+
+### Credentials and Humility
+
+ICG is a new company. We are pre-revenue and building. Our credibility comes from:
+- 20+ years of hands-on production experience across multiple mediums
+- The depth and specificity of what we share (people who know their craft write differently)
+- The systems we have built and continue to build
+- Our philosophy and approach, not our client list
+
+**NEVER name-drop specific networks or platforms as a flex:**
+- NEVER mention Netflix (this credit is outdated and cannot be backed up)
+- NEVER mention Discovery Channel, HGTV, National Geographic, Amazon Prime, or any broadcast network by name as credential flex
+- These names make Juan sound like he is trying to establish authority he does not currently have in AI production
+- If past work must be referenced, use the language from the ICG website: "TV shows, documentary films, video games, and brands across multiple mediums"
+- The range of mediums (broadcast, web, mobile apps, video games, streaming) is more honest and actually more impressive than dropping one channel name
+
+**The right way to establish credibility:**
+- "20+ years in audio, music, and video production"
+- "I have spent two decades understanding how content moves people"
+- "From scoring for film to directing branded content, the fundamentals are the same"
+- Specific techniques, specific problems solved, specific lessons learned
+- The depth of your knowledge, not the brand name of the client
+
+**Why this matters:** Juan is not the "I worked for Netflix" guy. He is the "I built the system" guy. That is a stronger, more differentiated position. The infrastructure and the approach are the credentials, not the client roster.
 
 ### How We Frame Cost
 - **RIGHT:** "What used to be a $3M production can now be done for $150K with the right infrastructure" — still high-ticket, but democratizing access to big production quality

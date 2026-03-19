@@ -96,6 +96,7 @@ Always write from lived experience. Examples of authentic framing:
 - "I only spent $30 on this video" — NEVER frame things as cheap. The value is in the system, the expertise, and the production quality.
 - "AI makes everything free/cheap" — this devalues the work and the years of experience behind the systems
 - Specific architecture details that reveal our competitive advantage (agent counts, specific tool names in our pipeline, internal system names)
+- Any specific dollar amount for API costs, generation costs, or tool subscriptions — not even as contrast against traditional costs
 - Anything that positions us as hobbyists or tool reviewers
 
 ### Credentials and Humility
@@ -123,12 +124,22 @@ ICG is a new company. We are pre-revenue and building. Our credibility comes fro
 **Why this matters:** Juan is not the "I worked for Netflix" guy. He is the "I built the system" guy. That is a stronger, more differentiated position. The infrastructure and the approach are the credentials, not the client roster.
 
 ### How We Frame Cost
-- **RIGHT:** "What used to be a $3M production can now be done for $150K with the right infrastructure" — still high-ticket, but democratizing access to big production quality
-- **RIGHT:** "Small production houses can now compete with major studios on visual quality"
-- **RIGHT:** "The investment is in building the system. Once built, each production costs a fraction of traditional methods."
-- **WRONG:** "This video cost me $30 to make"
+
+**ABSOLUTE RULE: Never quote specific API costs, tool subscription costs, or per-video dollar amounts.** Not even as a contrast against traditional costs. Not even to show ROI. This includes: API credits, generation costs, per-clip costs, monthly tool costs, total project API spend.
+
+Why this matters: Our target market is high-ticket businesses and organizations charging thousands per video. The moment a reader sees "$35 in API credits" they calculate $200-$300 per video, not thousands. They stop seeing 20+ years of experience, months of infrastructure building, and the creative judgment behind the system. They see cheap. Quoting API costs destroys our pricing position.
+
+The value we communicate is: TIME (months compressed to days), CAPABILITY (big-studio quality from a two-person shop), EXPERTISE (decades of production experience encoded into a system). Never cost.
+
+- **RIGHT:** "What used to require a large crew and weeks of production, we deliver in days"
+- **RIGHT:** "Small production houses can now compete with major studios on visual quality and turnaround"
+- **RIGHT:** "The investment is in building the system. The system is what clients are paying for."
+- **RIGHT:** "We compressed a three-month production timeline into two weeks"
+- **WRONG:** "This video cost me $35 in API credits"
+- **WRONG:** "Traditional production would cost $8K, we did it for $35"
 - **WRONG:** "AI tools are so cheap now"
-- **WRONG:** "Replace your entire team with AI for pennies"
+- **WRONG:** Any specific dollar amount for API, generation, or tool costs
+- **WRONG:** Any ROI comparison that anchors to low API costs
 
 ### How We Frame Speed
 - **RIGHT:** "What would take 3-4 months of traditional production, we deliver in one month"

@@ -34,9 +34,11 @@ def post_to_x(title: str, body: str, article: bool = False) -> str:
     client = get_x_client()
 
     if article:
-        # Long-form note tweet (X Articles / Note Tweets)
+        # Long-form note tweet (X Articles / Note Tweets).
+        # True X Articles (displayed on the Articles tab) require Premium+
+        # and may need manual publishing via the web UI. Note tweets are
+        # the closest API equivalent and support up to 25,000 characters.
         text = f"{title}\n\n{body}"
-        # Note tweets support up to 25,000 characters
         response = client.create_tweet(text=text)
     else:
         # Regular tweet — combine title and body, truncate if needed

@@ -172,62 +172,88 @@ NOT every article should be a masterpiece. Intentionally vary:
 
 ---
 
-## Step 5: Platform Adaptation
+## Step 5: Platform Adaptation (5 outputs)
 
-After selecting the winning variant, create **3 platform-specific versions**:
+After selecting and AI-proofing the winning variant, create **5 platform-specific versions**:
 
-### Reddit Version
-- Full article, casual voice, Reddit markdown
-- 2000-3500 characters
+### 1. Reddit Post (2,000-3,500 chars)
+- Full article, casual builder voice, Reddit markdown
+- TL;DR, section headers, specific details
 - Anonymous practitioner sharing experience
-- TL;DR section, casual headers, specific numbers
 - No self-promotion, no links to your own stuff
 
-### LinkedIn Version
-- Professional rewrite, authority voice
-- 1200-1500 characters
-- Hook MUST land in first 140 characters (before "See more" fold)
-- First-person expertise tone
-- Emoji section breaks (sparingly: 🎬 🔧 💡 📊)
-- Call to engage at end ("What tools are you using for X?")
+### 2. LinkedIn Post (1,200-1,500 chars)
+- Feed-optimized, hook in first 140 chars (before See more cutoff)
+- Professional authority voice
+- Emoji section breaks, call to engage at end
+- Short, punchy, designed for scroll-stopping
 - No Reddit slang, no "ngl", no fragments
 
-### X Article Version
-- Punchy opinionated rewrite
-- 1500-2500 characters
-- Provocative opening hook — bold claim or surprising stat
-- Bold claims backed by specific numbers
-- Shorter paragraphs (2-3 sentences max)
-- "Hot take" energy with real substance behind it
+### 3. LinkedIn Article (2,500-4,000+ chars)
+- Full blog-style article with headings and structure
+- Professional authority, deeper analysis than the post
+- SEO title and description (for Google indexing)
+- Cover image brief (describe what image should accompany)
+- Same depth as Reddit but professional tone
+- Juan Valencia byline, ICG positioning
+
+### 4. X Post (280-1,800 chars)
+- Punchy, opinionated, provocative opening hook
+- Designed for feed engagement
+- Hot take format or bold claim with one key insight
+- Can be a thread teaser that points to the full article
 - No hashtag spam (1-2 relevant ones max)
+
+### 5. X Article (2,500-4,000+ chars)
+- Full article using X Articles editor format
+- Headings, bold, embedded media placeholders
+- Thought leader voice, forward momentum
+- Displayed on Articles tab of profile
+- Same depth as LinkedIn Article but more opinionated tone
+
+All 5 versions come from the same winning variant and research data. They share the same core argument but are adapted for each platform's voice, format, and audience behavior.
 
 ---
 
 ## Step 5.5: Human Review (MANDATORY)
 
-After platform adaptation, save all variants for human review. Do NOT auto-post.
+After platform adaptation, save all 5 formats for human review. Do NOT auto-post.
 
 ### Save Variants
 1. Generate a run ID: `YYYY-MM-DD-HHMMSS` (e.g., `2026-03-18-143022`)
 2. Create directory: `data/review/[run-id]/`
-3. Save 9 files (3 variants x 3 platforms):
-   - `A_reddit.md`, `A_linkedin.md`, `A_x.md`
-   - `B_reddit.md`, `B_linkedin.md`, `B_x.md`
-   - `C_reddit.md`, `C_linkedin.md`, `C_x.md`
-4. Save `metadata.json` with: run_id, topic, title, subreddit, flair, scores, winner, timestamp
+3. Save 5 files for the winning variant:
+   - `reddit_post.md`
+   - `linkedin_post.md`
+   - `linkedin_article.md`
+   - `x_post.md`
+   - `x_article.md`
+4. Save `metadata.json` with: run_id, topic, title, subreddit, flair, scores, winner, timestamp, char counts per format
 
 ### Notify Juan
 ```bash
-python3 src/notify.py --topic "TOPIC" --variant-a "ANGLE SCORE" --variant-b "ANGLE SCORE" --variant-c "ANGLE SCORE" --winner A --slop-score 8.5 --run-id RUN_ID
+python3 src/notify.py \
+  --topic "TOPIC" \
+  --variant-a "ANGLE SCORE" --variant-b "ANGLE SCORE" --variant-c "ANGLE SCORE" \
+  --winner A --slop-score 8.5 --run-id RUN_ID \
+  --reddit-post-chars XXXX \
+  --linkedin-post-chars XXXX --linkedin-article-chars XXXX \
+  --x-post-chars XXXX --x-article-chars XXXX
 ```
 
 ### Wait for Choice
 Do NOT proceed to posting. Juan will review and run:
 ```bash
-python3 src/post_choice.py --choice C --run-id RUN_ID
+# Per-platform format selection
+python3 src/post_choice.py --run-id RUN_ID --reddit post --linkedin article --x post
+
+# Shortcuts
+python3 src/post_choice.py --run-id RUN_ID --all articles
+python3 src/post_choice.py --run-id RUN_ID --all posts
 ```
 
-This posts the chosen variant to all platforms and logs the preference to `data/preference-log.jsonl`.
+Each platform flag accepts: `post`, `article`, `skip`, or `both`.
+This posts the selected format for each platform and logs choices to `data/preference-log.jsonl`.
 
 ---
 

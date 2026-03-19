@@ -15,25 +15,40 @@ VALID_CALLERS = ("main", "dev", "reel", "pixel", "buzz", "scout", "reach", "forg
 TELL_AGENT = Path.home() / "bin" / "tell-agent"
 
 
-def build_message(topic, variants, winner, slop_score):
+def build_message(topic, variants, winner, slop_score, char_counts=None):
     """Build the review notification message."""
     lines = [
-        "📝 NEW CONTENT READY FOR REVIEW",
+        "New content ready for review.",
         "",
         f"Topic: {topic}",
+        f"Winner: Variant {winner} (score: {slop_score})",
         "",
     ]
 
     for label, info in variants.items():
         lines.append(f"  {label}: {info}")
 
+    lines.append("")
+
+    # Platform format options with char counts
+    if char_counts:
+        rc = char_counts.get("reddit_post", "?")
+        lpc = char_counts.get("linkedin_post", "?")
+        lac = char_counts.get("linkedin_article", "?")
+        xpc = char_counts.get("x_post", "?")
+        xac = char_counts.get("x_article", "?")
+
+        lines.append(f"Reddit: Post ({rc} chars)")
+        lines.append(f"LinkedIn: Post ({lpc} chars) or Article ({lac} chars)")
+        lines.append(f"X: Post ({xpc} chars) or Article ({xac} chars)")
+        lines.append("")
+
     lines.extend([
-        "",
-        f"System winner: {winner}",
-        f"Stop-slop score: {slop_score}",
-        "",
-        "Reply A, B, or C to approve that variant.",
-        "Reply SKIP to skip this topic.",
+        "Reply with your picks per platform:",
+        "Example: reddit, linkedin article, x post",
+        "Or: all articles",
+        "Or: all posts",
+        "Or: SKIP",
     ])
 
     return "\n".join(lines)
@@ -67,6 +82,11 @@ def main():
     parser.add_argument("--caller", default="main", choices=VALID_CALLERS,
                         help="Agent session to route notification to (default: main)")
     parser.add_argument("--run-id", default=None, help="Run ID for reference")
+    parser.add_argument("--reddit-post-chars", type=int, default=None, help="Reddit post char count")
+    parser.add_argument("--linkedin-post-chars", type=int, default=None, help="LinkedIn post char count")
+    parser.add_argument("--linkedin-article-chars", type=int, default=None, help="LinkedIn article char count")
+    parser.add_argument("--x-post-chars", type=int, default=None, help="X post char count")
+    parser.add_argument("--x-article-chars", type=int, default=None, help="X article char count")
     args = parser.parse_args()
 
     variants = {
@@ -75,7 +95,17 @@ def main():
         "C": args.variant_c,
     }
 
-    message = build_message(args.topic, variants, args.winner, args.slop_score)
+    char_counts = None
+    if args.reddit_post_chars is not None:
+        char_counts = {
+            "reddit_post": args.reddit_post_chars,
+            "linkedin_post": args.linkedin_post_chars or "?",
+            "linkedin_article": args.linkedin_article_chars or "?",
+            "x_post": args.x_post_chars or "?",
+            "x_article": args.x_article_chars or "?",
+        }
+
+    message = build_message(args.topic, variants, args.winner, args.slop_score, char_counts)
 
     if args.run_id:
         message += f"\n\nRun ID: {args.run_id}"

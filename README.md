@@ -12,20 +12,22 @@ LaunchAgent/cron → run.sh → Claude Code (--print mode)
                     3. Generate: 3 article variants with different angles
                     4. Score: Rubric-based evaluation (8+/10 to post)
                     5. AI-Proof: Sentence variation, first-person, opinions
-                    6. Adapt: Platform-specific versions (Reddit/LinkedIn/X)
+                    6. Adapt: 5 platform formats (Reddit post, LinkedIn post/article, X post/article)
                     7. Post: src/post_reddit.py, post_linkedin.py, post_x.py
                     8. Log: experiment-log.jsonl + post-history.jsonl
 ```
 
 This is an **autoresearch pattern** — Claude Code researches before writing, verifies facts, generates multiple variants, scores them, and only posts if quality threshold is met.
 
-## Platforms
+## Platforms (5 Output Formats)
 
-| Platform | Module | Voice |
-|----------|--------|-------|
-| Reddit | `src/post_reddit.py` | Casual practitioner, Reddit markdown, 2000-3500 chars |
-| LinkedIn | `src/post_linkedin.py` | Professional authority, 1200-1500 chars, hook in first 140 chars |
-| X | `src/post_x.py` | Punchy hot takes, 1500-2500 chars, provocative hooks |
+| Platform | Format | Module | Voice |
+|----------|--------|--------|-------|
+| Reddit | Post | `src/post_reddit.py` | Casual practitioner, Reddit markdown, 2,000-3,500 chars |
+| LinkedIn | Post | `src/post_linkedin.py` | Professional authority, 1,200-1,500 chars, scroll-stopping |
+| LinkedIn | Article | `src/post_linkedin.py --article` | Blog-style, SEO-indexed, 2,500-4,000+ chars |
+| X | Post | `src/post_x.py` | Punchy hot takes, 280-1,800 chars, feed engagement |
+| X | Article | `src/post_x.py --article` | Long-form thought leadership, 2,500-4,000+ chars |
 
 ## Content Pillars
 
@@ -109,30 +111,43 @@ Requires `ANTHROPIC_API_KEY` in `.env`.
 
 ## Review Workflow
 
-The engine generates 3 variants but does NOT auto-post. Instead, it saves all variants and notifies Juan via Telegram for human review.
+The engine generates 3 variants, picks a winner, then creates 5 platform-specific formats. It does NOT auto-post. Instead, it saves all formats and notifies Juan for human review.
 
 ### How it works
 
-1. Engine generates 3 variants, adapts each for Reddit/LinkedIn/X (9 files total)
-2. Saves everything to `data/review/[run-id]/` with a `metadata.json`
-3. Sends Telegram notification with variant summaries and system recommendation
-4. Juan replies with A, B, C, or SKIP
+1. Engine generates 3 variants, scores them, picks a winner
+2. Creates 5 platform formats from the winner: Reddit post, LinkedIn post, LinkedIn article, X post, X article
+3. Saves to `data/review/[run-id]/` with `metadata.json`
+4. Sends notification with per-platform format options and char counts
+5. Juan picks format per platform (e.g., "reddit, linkedin article, x post")
 
-### Approve and post a variant
+### Approve and post with per-platform format selection
 
 ```bash
-python3 src/post_choice.py --choice B --run-id 2026-03-18-143022
+# Pick format per platform
+python3 src/post_choice.py --run-id 2026-03-18-143022 --reddit post --linkedin article --x post
+
+# Shortcuts
+python3 src/post_choice.py --run-id 2026-03-18-143022 --all articles
+python3 src/post_choice.py --run-id 2026-03-18-143022 --all posts
 ```
 
-This posts the chosen variant to all 3 platforms and logs the preference to `data/preference-log.jsonl` for tracking system accuracy over time.
+Each platform flag accepts: `post`, `article`, `skip`, or `both`. Logs choices to `data/preference-log.jsonl`.
 
 ### Notification CLI (standalone)
 
 ```bash
-python3 src/notify.py --topic "Topic Name" --variant-a "Practitioner walkthrough 8.5" --variant-b "Comparison piece 7.9" --variant-c "Hot take 8.2" --winner A --slop-score 8.5
+python3 src/notify.py --topic "Topic Name" \
+  --variant-a "Practitioner walkthrough 8.5" \
+  --variant-b "Comparison piece 7.9" \
+  --variant-c "Hot take 8.2" \
+  --winner A --slop-score 8.5 \
+  --reddit-post-chars 2800 \
+  --linkedin-post-chars 1350 --linkedin-article-chars 3200 \
+  --x-post-chars 1100 --x-article-chars 3400
 ```
 
-Falls back to stdout if the Telegram gateway is unavailable.
+Falls back to stdout if the agent gateway is unavailable.
 
 ## Deploy (macOS LaunchAgent)
 

@@ -33,7 +33,11 @@ def post_to_linkedin(title: str, body: str, article: bool = False) -> str:
     }
 
     if article:
-        # LinkedIn articles use the /articles endpoint
+        # LinkedIn articles via UGC API. Note: true LinkedIn Articles (the blog
+        # format with SEO indexing) require manual publishing via the web UI.
+        # This endpoint creates a share with ARTICLE media category, which is
+        # the closest API equivalent. For full articles, consider posting via
+        # the web UI and using this as a fallback.
         post_data = {
             "author": f"urn:li:person:{person_id}",
             "lifecycleState": "PUBLISHED",
